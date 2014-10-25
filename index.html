@@ -49,6 +49,7 @@
 
         //squaresDemolet.init();
         templateDemolet.init();
+        templateDemolet.resize(Demo.stageW, Demo.stageH);
         requestAnimFrame(animate);
 
         function animate() {
@@ -80,6 +81,7 @@
                 Demo.stageW = window.innerWidth - 16;
                 Demo.stageH = window.innerHeight - 16;
                 renderer.resize(Demo.stageW, Demo.stageH);
+                templateDemolet.resize(Demo.stageW, Demo.stageH);
             }
 
             }());
