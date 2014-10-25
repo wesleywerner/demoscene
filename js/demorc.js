@@ -52,5 +52,9 @@ Demo.tintTable = {
 }
 
 Demo.requestTint = function(tintName) {
-    return this.tintTable['cyan'];
+    var keys = Object.keys(this.tintTable);
+    if (keys.indexOf(tintName) == -1)
+        return this.tintTable[keys[getRandomInt(0, keys.length - 1)]];
+    else
+        return this.tintTable[tintName];
 }
