@@ -44,8 +44,6 @@ templateDemolet.init = function() {
         var newSprite = PIXI.Sprite.fromImage(this.path + "gradient.png");
         newSprite.anchor.x = 0.5;
         newSprite.anchor.y = 0.5;
-        newSprite.position.x = Demo.stageW / i;
-        newSprite.position.y = Demo.stageW / i;
 
         /*
          * Demo.requestTint(name)
@@ -71,8 +69,6 @@ templateDemolet.init = function() {
     var textSprite = new PIXI.Text("This is the Template Demolet.", { fill: "white", align: "left" });
     textSprite.anchor.x = 0.5;
     textSprite.anchor.y = 0.5;
-    textSprite.position.x = Demo.stageW / 2;
-    textSprite.position.y = Demo.stageH / 2;
     this.sprites.push(textSprite);
 
     // Add our sprite to the stage. If we don't add it, it won't get rendered.
@@ -93,6 +89,21 @@ templateDemolet.update = function() {
     // Reference our Demolet using 'this' keyword.
     this.sprites.forEach(function(sprite, index) {
         sprite.rotation -= 0.01 * (5 - index);
+    });
+
+}
+
+/*
+ * resize()
+ *
+ * Called when the window is resized.
+ * You don't have to handle resize events, but it gives a nicer experience for the viewer.
+ * It also gets called right after init().
+ */
+templateDemolet.resize = function(w, h) {
+
+    this.sprites.forEach(function(sprite) {
+        sprite.position.set(w / 2, h / 2);
     });
 
 }
