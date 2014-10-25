@@ -36,11 +36,10 @@ var templateDemolet = { "path": "demolets/demolet_template/" };
  */
 templateDemolet.init = function() {
 
-    /*
-     * Store an array of our sprites on our Demolet object.
-     */
+    //Store an array of our sprites on our Demolet object.
     this.sprites = [ ];
 
+    // create square sprites
     for (var i=2; i<6; i++) {
         var newSprite = PIXI.Sprite.fromImage(this.path + "gradient.png");
         newSprite.anchor.x = 0.5;
@@ -63,16 +62,23 @@ templateDemolet.init = function() {
          */
         newSprite.tint = Demo.requestTint();
 
-        /*
-         * Save this sprite so we can access it later during update events.
-         */
+        // Save this sprite so we can access it later during update events.
         this.sprites.push(newSprite);
 
-        /*
-         * Add our sprite to the stage. If we don't add it, it won't get rendered.
-         */
-        stage.addChild(newSprite);
     }
+
+    // Add a text to the sprite list.
+    var textSprite = new PIXI.Text("This is the Template Demolet.", { fill: "white", align: "left" });
+    textSprite.anchor.x = 0.5;
+    textSprite.anchor.y = 0.5;
+    textSprite.position.x = Demo.stageW / 2;
+    textSprite.position.y = Demo.stageH / 2;
+    this.sprites.push(textSprite);
+
+    // Add our sprite to the stage. If we don't add it, it won't get rendered.
+    this.sprites.forEach(function(sprite) {
+        stage.addChild(sprite);
+    });
 
 }
 
@@ -86,7 +92,7 @@ templateDemolet.update = function() {
 
     // Reference our Demolet using 'this' keyword.
     this.sprites.forEach(function(sprite, index) {
-        sprite.rotation -= 0.01 * (index + 1);
+        sprite.rotation -= 0.01 * (5 - index);
     });
 
 }
