@@ -31,10 +31,33 @@
     <meta name="generator" content="Geany 1.24.1" />
     <link rel="stylesheet" href="styles.css" />
     <script type="text/javascript" src="js/pixi.js"></script>
+    <script type="text/javascript" src="js/demorc.js"></script>
+    <!-- demolets -->
+    <script type="text/javascript" src="demolets/demolet_template/template.js"></script>
 </head>
 
 <body>
 
+    <script>
+
+        var stage = new PIXI.Stage(0x002b36);
+        var renderer = new PIXI.autoDetectRenderer(Demo.stageW, Demo.stageH);
+        document.body.appendChild(renderer.view);
+
+        //squaresDemolet.init();
+        templateDemolet.init();
+        requestAnimFrame(animate);
+
+        function animate() {
+
+            //squaresDemolet.update();
+            templateDemolet.update();
+            renderer.render(stage);
+            requestAnimFrame(animate);
+
+        }
+
+    </script>
     <h1>Hello, world!</h1>
 
 </body>
