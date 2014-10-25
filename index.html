@@ -35,6 +35,7 @@
     <script type="text/javascript" src="js/helpers.js"></script>
     <!-- demolets -->
     <script type="text/javascript" src="demolets/demolet_template/template.js"></script>
+    <script type="text/javascript" src="demolets/intro/intro.js"></script>
 </head>
 
 <body>
@@ -47,17 +48,28 @@
         var renderer = new PIXI.autoDetectRenderer(Demo.stageW, Demo.stageH);
         document.body.appendChild(renderer.view);
 
-        // Define and then Initialize the list of Demolets we will be running
+        // Define the list of Demolets we will be running
         Demo.lets = [
             templateDemolet,
             ]
 
-        Demo.lets.forEach(function(demolet) {
+        // Initialize the Demolets
+        Array.concat(Demo.lets, introDemolet).forEach(function(demolet) {
             demolet.init();
             demolet.resize(Demo.stageW, Demo.stageH);
         });
 
-        requestAnimFrame(animate);
+        requestAnimFrame(animate_intro);
+
+        // Our intro animation. It triggers the main animation when it is done.
+        function animate_intro() {
+            introDemolet.update();
+            renderer.render(stage);
+            if (introDemolet.done == true)
+                requestAnimFrame(animate);
+            else
+                requestAnimFrame(animate_intro);
+        }
 
         // Our animation callback
         function animate() {
