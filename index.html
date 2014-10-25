@@ -47,15 +47,27 @@
         var renderer = new PIXI.autoDetectRenderer(Demo.stageW, Demo.stageH);
         document.body.appendChild(renderer.view);
 
-        //squaresDemolet.init();
-        templateDemolet.init();
-        templateDemolet.resize(Demo.stageW, Demo.stageH);
+        // Define and then Initialize the list of Demolets we will be running
+        Demo.lets = [
+            templateDemolet,
+            ]
+
+        Demo.lets.forEach(function(demolet) {
+            demolet.init();
+            demolet.resize(Demo.stageW, Demo.stageH);
+        });
+
         requestAnimFrame(animate);
 
+        // Our animation callback
         function animate() {
 
-            //squaresDemolet.update();
-            templateDemolet.update();
+            // update each Demolet
+            Demo.lets.forEach(function(demolet) {
+                demolet.update();
+            });
+
+            // Render the scene and request the next animation frame
             renderer.render(stage);
             requestAnimFrame(animate);
 
@@ -77,11 +89,13 @@
             }
 
             function actualResizeHandler() {
-                // handle the resize event
+                // Handle the resize event by saving the new size, and call resizing on each Demolet.
                 Demo.stageW = window.innerWidth - 16;
                 Demo.stageH = window.innerHeight - 16;
                 renderer.resize(Demo.stageW, Demo.stageH);
-                templateDemolet.resize(Demo.stageW, Demo.stageH);
+                Demo.lets.forEach(function(demolet) {
+                    demolet.resize(Demo.stageW, Demo.stageH);
+                });
             }
 
             }());
