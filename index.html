@@ -41,6 +41,8 @@
 
     <script>
 
+        Demo.stageW = window.innerWidth - 16;
+        Demo.stageH = window.innerHeight - 16;
         var stage = new PIXI.Stage(Demo.requestTint('base03'));
         var renderer = new PIXI.autoDetectRenderer(Demo.stageW, Demo.stageH);
         document.body.appendChild(renderer.view);
@@ -59,7 +61,6 @@
         }
 
     </script>
-    <h1>Hello, world!</h1>
 
 </body>
 

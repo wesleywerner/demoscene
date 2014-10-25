@@ -24,8 +24,8 @@ var Demo = { };
 /*
  * Defines the stage size
  */
-Demo.stageW = 600;
-Demo.stageH = 600;
+Demo.stageW = 0;
+Demo.stageH = 0;
 
 /*
  * The tint table allows us to define a common color theme for our demo.
