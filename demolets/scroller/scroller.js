@@ -69,9 +69,9 @@ scrollerDemolet.fillScroller = function() {
 
     if (this.nextSpriteCountdown <= 0) {
 
-        var newChar = scrollerDemolet.words[scrollerDemolet.lastUsedCharIndex];
+        var nextChar = scrollerDemolet.words[scrollerDemolet.lastUsedCharIndex];
 
-        var charTexture = this.textureMap[newChar];
+        var charTexture = this.textureMap[nextChar];
 
         // ignore missing character textures
         if (charTexture == undefined) return;
