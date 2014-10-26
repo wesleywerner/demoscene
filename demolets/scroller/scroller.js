@@ -100,23 +100,32 @@ scrollerDemolet.init = function() {
     // The scroller is on
     this.on = false;
     // Delay start by this many seconds
-    this.startDelay = 0;
+    this.startDelay = 4;
+
+    /* Settings below this line are customized for this particular scroller */
+
     // Start tinting words after this position
     this.tintAfter = 12;
 
     // Load the background image
     var background = new PIXI.Sprite.fromImage(this.path + "background.png");
     background.width = (Demo.stageW - 64);
+    background.visible = false;
     stage.addChild(background);
     var bgX = (Demo.stageW / 2) - (background.width / 2)
     var bgY = Demo.stageH - background.height - 16;
-    background.position.set(bgX, bgY);
+    background.position.set(bgX, Demo.stageH);
     this.scrollX = (Demo.stageW - 64);
     this.scrollY = bgY + 32;
     this.scrollEndsAtX = bgX;
+    this.background = background;
+
+    // Background image target Y position. Offers a slide-in effect when showing the background.
+    this.backgroundTargetY = bgY;
 
     window.setTimeout(function() {
         scrollerDemolet.on = true;
+        background.visible = true;
     }, this.startDelay * 1000);
 
 }
@@ -176,6 +185,10 @@ scrollerDemolet.update = function() {
     this.sprites.forEach(function(sprite) {
         scrollerDemolet.updateSpritePosition(sprite);
     });
+
+    // slide the background into view
+    if (this.background.visible && this.background.y > this.backgroundTargetY)
+        this.background.y -= 1;
 
 }
 
