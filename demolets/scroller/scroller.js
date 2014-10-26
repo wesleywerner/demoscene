@@ -137,14 +137,14 @@ scrollerDemolet.fillScroller = function() {
     if (this.nextSpriteCountdown <= 0) {
 
         // rotate to beginning
-        scrollerDemolet.scrollerPosition++;
-        if (scrollerDemolet.scrollerPosition > scrollerDemolet.words.length - 1) {
-            scrollerDemolet.scrollerPosition = -1;
+        this.scrollerPosition++;
+        if (this.scrollerPosition > this.words.length - 1) {
+            this.scrollerPosition = -1;
             this.nextSpriteCountdown = this.restartDelay;
             return;
         }
 
-        var nextChar = scrollerDemolet.words[scrollerDemolet.scrollerPosition];
+        var nextChar = this.words[scrollerDemolet.scrollerPosition];
         var charTexture = this.textureMap[nextChar];
 
         // rotate tint by word
@@ -159,7 +159,7 @@ scrollerDemolet.fillScroller = function() {
         charSprite.tint = this.tint;
 
         charSprite.position.set(this.scrollX, this.scrollY);
-        scrollerDemolet.sprites.push(charSprite);
+        this.sprites.push(charSprite);
         stage.addChild(charSprite);
     }
 
