@@ -20,11 +20,13 @@
  *
  */
 
-var glowingskullsDemolet = { 'path': 'demolets/glowingskulls/' };
+var glowingskullsDemolet = {
+    "path": "demolets/glowingskulls/",
+    "running": false
+    };
 
 glowingskullsDemolet.init = function() {
 
-    this.running = false;
     this.sprites = [ ];
     this.maxSkulls = 10;
     this.liveSkulls = 0;
