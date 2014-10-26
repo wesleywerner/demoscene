@@ -20,7 +20,7 @@
  *
  */
 
-var scrollerDemolet = { };
+var scrollerDemolet = { "path": "demolets/scroller/" };
 
 scrollerDemolet.init = function() {
 
@@ -104,6 +104,17 @@ scrollerDemolet.init = function() {
     // Start tinting words after this position
     this.tintAfter = 12;
 
+    // Load the background image
+    var background = new PIXI.Sprite.fromImage(this.path + "background.png");
+    background.width = (Demo.stageW - 64);
+    stage.addChild(background);
+    var bgX = (Demo.stageW / 2) - (background.width / 2)
+    var bgY = Demo.stageH - background.height - 16;
+    background.position.set(bgX, bgY);
+    this.scrollX = (Demo.stageW - 64);
+    this.scrollY = bgY + 32;
+    this.scrollEndsAtX = bgX;
+
     window.setTimeout(function() {
         scrollerDemolet.on = true;
     }, this.startDelay * 1000);
@@ -149,7 +160,7 @@ scrollerDemolet.updateSpritePosition = function(sprite) {
 
     var lookupMapsTo = Math.abs(sprite.x / 64);     // again, our best guess sprite width
     sprite.position.x -= this.scrollSpeed;
-    sprite.position.y = this.lookup[sprite.x] + (Demo.stageH / 2);
+    sprite.position.y = this.lookup[sprite.x] + this.scrollY;
     if (sprite.x <= this.scrollEndsAtX) {
         stage.removeChild(sprite);
         this.sprites = this.sprites.slice(1)
@@ -175,7 +186,7 @@ scrollerDemolet.resize = function(w, h) {
     // we build a lookup table of where each of our Y-points map to the X-space.
     this.lookup = [ ]
     for (var i=0; i < w; i++) {
-        this.lookup.push(this.sinWave(80, 0.009, i, 0));
+        this.lookup.push(this.sinWave(40, 0.009, i, 0));
     }
 
 }
