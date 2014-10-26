@@ -73,7 +73,7 @@ scrollerDemolet.init = function() {
     var alphabet = " .,!#<0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(var i=0; i < alphabet.length-1; i++) {
         var c = alphabet.charAt(i);
-        var s = new PIXI.Text(c, { font: "48px Impact", fill: "white", stroke: "black", strokeThickness: "6" });
+        var s = new PIXI.Text(c, { font: "30px Impact", fill: "white", stroke: "black", strokeThickness: "6" });
         s.visible = false;
         stage.addChild(s);
         this.textureMap[c] = s;
@@ -154,7 +154,7 @@ scrollerDemolet.fillScroller = function() {
         if (charTexture == undefined) return;
 
         var charSprite = new PIXI.Sprite(charTexture.texture);
-        this.nextSpriteCountdown = 48; //charSprite.width;
+        this.nextSpriteCountdown = 24; //charSprite.width;
         charSprite.tint = this.tint;
 
         charSprite.position.set(this.scrollX, this.scrollY);
