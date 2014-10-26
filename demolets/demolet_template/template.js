@@ -39,9 +39,8 @@ var templateDemolet = {
  */
 templateDemolet.init = function() {
 
-    //Store an array of our sprites on our Demolet object.
+    // Store an array of our sprites on our Demolet object.
     this.sprites = [ ];
-    this.start();
 
 }
 
