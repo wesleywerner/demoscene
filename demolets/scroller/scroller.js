@@ -20,7 +20,10 @@
  *
  */
 
-var scrollerDemolet = { "path": "demolets/scroller/" };
+var scrollerDemolet = {
+    "path": "demolets/scroller/",
+    "running": false
+    };
 
 scrollerDemolet.init = function() {
 
@@ -121,10 +124,15 @@ scrollerDemolet.init = function() {
 
     // Background image target Y position. Offers a slide-in effect when showing the background.
     this.backgroundTargetY = bgY;
+    this.start();
+
+}
+
+scrollerDemolet.start = function() {
 
     window.setTimeout(function() {
         scrollerDemolet.on = true;
-        background.visible = true;
+        scrollerDemolet.background.visible = true;
     }, this.startDelay * 1000);
 
 }
