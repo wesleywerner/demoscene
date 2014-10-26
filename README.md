@@ -1,8 +1,8 @@
 # Demoscene
 
-This is a browser based WebGL demo. It is inspired by the demoscene.
+This is a browser based WebGL demo inspired by the old schoold Amiga demoscene.
 
-*This project needs a real name.*
+*This is a work in progress.*
 
 # Goal
 
