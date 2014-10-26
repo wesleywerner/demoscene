@@ -25,20 +25,19 @@ var scrollerDemolet = { };
 scrollerDemolet.init = function() {
 
     this.words = "HELLO WORLD! HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
-    this.resolution = 1000;
 
-    //// build a alpha-numeric texture map
-    //this.sprites = { };
-
-    //var alphabet = " .,!#0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    //for(var i=0; i < alphabet.length-1; i++) {
-        //var c = alphabet.charAt(i);
-        //this.sprites[c] = new PIXI.Text(c, { font: "bold 42px Arial", fill: "white", stroke: "black", strokeThickness: "6" });
-    //}
+    // build a alpha-numeric texture map
+    this.sprites = { };
+    var alphabet = " .,!#<0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    for(var i=0; i < alphabet.length-1; i++) {
+        var c = alphabet.charAt(i);
+        var s = new PIXI.Text(c, { font: "bold 42px Arial", fill: "white", stroke: "black", strokeThickness: "6" });
+        s.visible = false;
+        stage.addChild(s);
+        this.sprites[c] = s;
+    }
 
     // this array stores all our on-screen sprites. we limit the number. the divisor is our best guess sprite width.
-//    this.onscreenMax = Math.round(this.resolution / 64);
     this.lastUsedCharIndex = 0;
     // remember the last created sprite width
     this.nextSpriteCountdown = 0;
@@ -47,9 +46,9 @@ scrollerDemolet.init = function() {
     this.scrollSpeed = 6;
 
     // The scroll origin position
-    this.scrollX = 600;
+    this.scrollX = Demo.stageW;
     this.scrollY = Demo.stageH / 2;
-    this.scrollEndsAtX = 200;
+    this.scrollEndsAtX = 0;
 
     /*
      * create a lookup of all the positions (1000) where the letter sprites need to move along to Y-axiz.
@@ -72,15 +71,18 @@ scrollerDemolet.fillScroller = function() {
 
         var newChar = scrollerDemolet.words[scrollerDemolet.lastUsedCharIndex];
 
-        //var tex = this.sprites[newChar];
-        //var spr = new PIXI.Sprite(tex.texture);
-        var spr = new PIXI.Text(newChar, { font: "bold 48px Arial", fill: "white", stroke: "black", strokeThickness: "6" });
-        this.nextSpriteCountdown = 48; //spr.texture.width;
+        var charTexture = this.sprites[newChar];
 
-        //spr.tint = Demo.requestTint();
-        spr.position.set(this.scrollX, this.scrollY);
-        scrollerDemolet.onscreen.push(spr);
-        stage.addChild(spr);
+        // ignore missing character textures
+        if (charTexture == undefined) return;
+
+        var charSprite = new PIXI.Sprite(charTexture.texture);
+        this.nextSpriteCountdown = 48; //charSprite.width;
+
+        //charSprite.tint = Demo.requestTint();
+        charSprite.position.set(this.scrollX, this.scrollY);
+        scrollerDemolet.onscreen.push(charSprite);
+        stage.addChild(charSprite);
         scrollerDemolet.lastUsedCharIndex++;
         // rotate to beginning
         if (scrollerDemolet.lastUsedCharIndex > scrollerDemolet.words.length - 1)
@@ -114,14 +116,11 @@ scrollerDemolet.update = function() {
 scrollerDemolet.resize = function(w, h) {
 
     var half = h / 2;
-    var wave = w * 2;   // multiply this if we need more resolution
-    this.onscreenMax = Math.round(w / 48);
 
     // we build a lookup table of where each of our Y-points map to the X-space.
     this.lookup = [ ]
-    for (var i=0; i < wave; i++) {
-        //this.lookup.push(half + (Math.sin(i * 0.1) * 16));
-        this.lookup.push(this.sinWave(20, 0.009, i, 0));
+    for (var i=0; i < w; i++) {
+        this.lookup.push(this.sinWave(80, 0.009, i, 0));
     }
 
 }
