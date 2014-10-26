@@ -66,7 +66,6 @@ scrollerDemolet.init = function() {
      *
      */
 
-
     this.words = "HELLO WORLD! HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
 
     // build a alpha-numeric texture map
@@ -74,7 +73,7 @@ scrollerDemolet.init = function() {
     var alphabet = " .,!#<0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(var i=0; i < alphabet.length-1; i++) {
         var c = alphabet.charAt(i);
-        var s = new PIXI.Text(c, { font: "bold 42px Arial", fill: "white", stroke: "black", strokeThickness: "6" });
+        var s = new PIXI.Text(c, { font: "48px Impact", fill: "white", stroke: "black", strokeThickness: "6" });
         s.visible = false;
         stage.addChild(s);
         this.textureMap[c] = s;
@@ -100,7 +99,7 @@ scrollerDemolet.init = function() {
     // The scroller is on
     this.on = false;
     // Delay start by this many seconds
-    this.startDelay = 4;
+    this.startDelay = 0;
 
     /* Settings below this line are customized for this particular scroller */
 
@@ -214,3 +213,4 @@ scrollerDemolet.sinWave = function(A, w, t, p) {
     return A * Math.sin(w * t + p);
 
 }
+
