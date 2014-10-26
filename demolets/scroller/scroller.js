@@ -93,6 +93,8 @@ scrollerDemolet.init = function() {
     this.scrollY = Demo.stageH / 2;
     // End the scroll here
     this.scrollEndsAtX = 0;
+    // Tint sprites
+    this.tint = 0xFFFFFF;
 
 }
 
@@ -110,13 +112,17 @@ scrollerDemolet.fillScroller = function() {
         var nextChar = scrollerDemolet.words[scrollerDemolet.scrollerPosition];
         var charTexture = this.textureMap[nextChar];
 
+        // rotate tint by word
+        if (nextChar == ' ')
+            this.tint = Demo.requestTint();
+
         // ignore missing character textures
         if (charTexture == undefined) return;
 
         var charSprite = new PIXI.Sprite(charTexture.texture);
         this.nextSpriteCountdown = 48; //charSprite.width;
+        charSprite.tint = this.tint;
 
-        //charSprite.tint = Demo.requestTint();
         charSprite.position.set(this.scrollX, this.scrollY);
         scrollerDemolet.sprites.push(charSprite);
         stage.addChild(charSprite);
