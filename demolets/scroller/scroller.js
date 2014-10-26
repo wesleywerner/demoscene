@@ -81,7 +81,7 @@ scrollerDemolet.init = function() {
     }
 
     // The latest character we are scrolling
-    this.scrollerPosition = 0;
+    this.scrollerPosition = -1;
     // Remember the last created sprite width
     this.nextSpriteCountdown = 0;
     // List sprites showing on screen
@@ -102,8 +102,12 @@ scrollerDemolet.fillScroller = function() {
 
     if (this.nextSpriteCountdown <= 0) {
 
-        var nextChar = scrollerDemolet.words[scrollerDemolet.scrollerPosition];
+        // rotate to beginning
+        scrollerDemolet.scrollerPosition++;
+        if (scrollerDemolet.scrollerPosition > scrollerDemolet.words.length - 1)
+            scrollerDemolet.scrollerPosition = 0;
 
+        var nextChar = scrollerDemolet.words[scrollerDemolet.scrollerPosition];
         var charTexture = this.textureMap[nextChar];
 
         // ignore missing character textures
@@ -116,10 +120,6 @@ scrollerDemolet.fillScroller = function() {
         charSprite.position.set(this.scrollX, this.scrollY);
         scrollerDemolet.sprites.push(charSprite);
         stage.addChild(charSprite);
-        scrollerDemolet.scrollerPosition++;
-        // rotate to beginning
-        if (scrollerDemolet.scrollerPosition > scrollerDemolet.words.length - 1)
-            scrollerDemolet.scrollerPosition = 0;
     }
 
 }
