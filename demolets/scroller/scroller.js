@@ -97,6 +97,14 @@ scrollerDemolet.init = function() {
     this.tint = 0xFFFFFF;
     // Wait this many updates before restarting the scroller text.
     this.restartDelay = 1000;
+    // The scroller is on
+    this.on = false;
+    // Delay start by this many seconds
+    this.startDelay = 0;
+
+    window.setTimeout(function() {
+        scrollerDemolet.on = true;
+    }, this.startDelay * 1000);
 
 }
 
@@ -149,6 +157,7 @@ scrollerDemolet.updateSpritePosition = function(sprite) {
 
 scrollerDemolet.update = function() {
 
+    if (!this.on) return;
     this.fillScroller();
 
     this.sprites.forEach(function(sprite) {
