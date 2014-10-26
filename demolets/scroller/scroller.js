@@ -24,6 +24,49 @@ var scrollerDemolet = { };
 
 scrollerDemolet.init = function() {
 
+    /*
+     * An old-school text scroller effect.
+     * Copyleft Wesley Werner aka keyboardmonkey 2014
+     *
+     * For your learning pleasure, a summary of variables and how they work:
+     *
+     * this.lookup [Array]
+     *
+     *      On view resize, we build a lookup table the size of the screen width.
+     *      For each X position we calculate the matching Y using a sine function.
+     *      Thus sprite.Y = this.lookup[X]. Easy huh.
+     *
+     * this.textureMap [Object]
+     *
+     *      We precreate our alpha-numeric sprites and store them in an associative collection.
+     *      Reusing these textures when building our scroller saves cycles by not rendering text.
+     *      Thus this.textureMap['F'] gets the F-texture.
+     *
+     * this.words
+     *
+     *      What our soapbox speaks.
+     *
+     * this.scrollerPosition
+     *
+     *      The latest position in this.words
+     *
+     * this.sprites
+     *
+     *      List of sprites on the stage. We iterate this list to update sprites, and remove them from the stage
+     *      when they leave the bounds set by this.scrollEndsAtX.
+     *
+     * this.scrollSpeed
+     *
+     *      Move speed in pixels. Negative values switches direction ;)
+     *
+     * this.nextSpriteCountdown
+     *
+     *      Stores the width of the last sprite created. We decrement this on updates, and when it hits 0
+     *      we know it is about time to create the next sprite. Wash, rinse, repeat.
+     *
+     */
+
+
     this.words = "HELLO WORLD! HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
 
     // build a alpha-numeric texture map
@@ -37,29 +80,19 @@ scrollerDemolet.init = function() {
         this.textureMap[c] = s;
     }
 
-    // this array stores all our on-screen sprites. we limit the number. the divisor is our best guess sprite width.
-    this.lastUsedCharIndex = 0;
-    // remember the last created sprite width
+    // The latest character we are scrolling
+    this.scrollerPosition = 0;
+    // Remember the last created sprite width
     this.nextSpriteCountdown = 0;
+    // List sprites showing on screen
     this.sprites = [ ];
-    // scroller text speed
+    // Movement speed in pixels
     this.scrollSpeed = 6;
-
-    // The scroll origin position
+    // Start the scroll at this point
     this.scrollX = Demo.stageW;
     this.scrollY = Demo.stageH / 2;
+    // End the scroll here
     this.scrollEndsAtX = 0;
-
-    /*
-     * create a lookup of all the positions (1000) where the letter sprites need to move along to Y-axiz.
-     * calculate the lookup on resize, use a sin function to store the Y position of each lookup value.
-     * create an array for on-screen character sprites, say (1000 / 64 = 15) elements. 15 chars on screen.
-     * start filling the char array with letters.
-     * move each sprite left.
-     * map the sprite X position to our lookup, and grab the Y position stored in the lookup.
-     * when a sprite leaves the screen, remove it from the array.
-     * add more sprites to the array while there is space left.
-     */
 
 }
 
@@ -69,7 +102,7 @@ scrollerDemolet.fillScroller = function() {
 
     if (this.nextSpriteCountdown <= 0) {
 
-        var nextChar = scrollerDemolet.words[scrollerDemolet.lastUsedCharIndex];
+        var nextChar = scrollerDemolet.words[scrollerDemolet.scrollerPosition];
 
         var charTexture = this.textureMap[nextChar];
 
@@ -83,10 +116,10 @@ scrollerDemolet.fillScroller = function() {
         charSprite.position.set(this.scrollX, this.scrollY);
         scrollerDemolet.sprites.push(charSprite);
         stage.addChild(charSprite);
-        scrollerDemolet.lastUsedCharIndex++;
+        scrollerDemolet.scrollerPosition++;
         // rotate to beginning
-        if (scrollerDemolet.lastUsedCharIndex > scrollerDemolet.words.length - 1)
-            scrollerDemolet.lastUsedCharIndex = 0;
+        if (scrollerDemolet.scrollerPosition > scrollerDemolet.words.length - 1)
+            scrollerDemolet.scrollerPosition = 0;
     }
 
 }
