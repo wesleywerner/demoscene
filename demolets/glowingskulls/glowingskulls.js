@@ -27,7 +27,7 @@ var glowingskullsDemolet = {
 
 glowingskullsDemolet.init = function() {
 
-    this.sprites = [ ];
+    this.infos = [ ];
     this.maxSkulls = 10;
     this.liveSkulls = 0;
     this.texture = PIXI.Texture.fromImage(this.path + "glowingskull.png");
@@ -38,6 +38,7 @@ glowingskullsDemolet.init = function() {
 
 glowingskullsDemolet.start = function() {
 
+    this.infos = [ ];
     for (var i=0; i<this.maxSkulls; i++) {
         var sprite = new PIXI.Sprite(this.texture);
         sprite.position.set(-getRandomInt(100, 1000), getRandomInt(100, Demo.stageH - 100));
@@ -45,7 +46,7 @@ glowingskullsDemolet.start = function() {
         sprite.anchor.set(0.5, 0.5);
         stage.addChild(sprite);
 
-        this.sprites.push(
+        this.infos.push(
                 {
                 'dead': false,
                 'sprite': sprite,
@@ -63,9 +64,8 @@ glowingskullsDemolet.start = function() {
 glowingskullsDemolet.finish = function() {
     this.liveSkulls--;
     if (this.liveSkulls == 0) {
-        glowingskullsDemolet.done = true;
-        glowingskullsDemolet.sprites.forEach(function(sprite) {
-            stage.removeChild(sprite);
+        glowingskullsDemolet.infos.forEach(function(info) {
+            stage.removeChild(info.sprite);
         });
     }
 }
@@ -73,7 +73,7 @@ glowingskullsDemolet.finish = function() {
 glowingskullsDemolet.update = function() {
 
     if (this.liveSkulls > 0) {
-        this.sprites.forEach(function(info) {
+        this.infos.forEach(function(info) {
             if (!info.dead) {
                 // rotate the skull
                 info.sprite.rotation += info.rotatespeed;
