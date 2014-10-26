@@ -27,21 +27,21 @@ scrollerDemolet.init = function() {
     this.words = "HELLO WORLD! HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
 
     // build a alpha-numeric texture map
-    this.sprites = { };
+    this.textureMap = { };
     var alphabet = " .,!#<0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(var i=0; i < alphabet.length-1; i++) {
         var c = alphabet.charAt(i);
         var s = new PIXI.Text(c, { font: "bold 42px Arial", fill: "white", stroke: "black", strokeThickness: "6" });
         s.visible = false;
         stage.addChild(s);
-        this.sprites[c] = s;
+        this.textureMap[c] = s;
     }
 
     // this array stores all our on-screen sprites. we limit the number. the divisor is our best guess sprite width.
     this.lastUsedCharIndex = 0;
     // remember the last created sprite width
     this.nextSpriteCountdown = 0;
-    this.onscreen = [ ];
+    this.sprites = [ ];
     // scroller text speed
     this.scrollSpeed = 6;
 
@@ -71,7 +71,7 @@ scrollerDemolet.fillScroller = function() {
 
         var newChar = scrollerDemolet.words[scrollerDemolet.lastUsedCharIndex];
 
-        var charTexture = this.sprites[newChar];
+        var charTexture = this.textureMap[newChar];
 
         // ignore missing character textures
         if (charTexture == undefined) return;
@@ -81,7 +81,7 @@ scrollerDemolet.fillScroller = function() {
 
         //charSprite.tint = Demo.requestTint();
         charSprite.position.set(this.scrollX, this.scrollY);
-        scrollerDemolet.onscreen.push(charSprite);
+        scrollerDemolet.sprites.push(charSprite);
         stage.addChild(charSprite);
         scrollerDemolet.lastUsedCharIndex++;
         // rotate to beginning
@@ -98,7 +98,7 @@ scrollerDemolet.updateSpritePosition = function(sprite) {
     sprite.position.y = this.lookup[sprite.x] + (Demo.stageH / 2);
     if (sprite.x <= this.scrollEndsAtX) {
         stage.removeChild(sprite);
-        this.onscreen = this.onscreen.slice(1)
+        this.sprites = this.sprites.slice(1)
     }
 
 }
@@ -107,7 +107,7 @@ scrollerDemolet.update = function() {
 
     this.fillScroller();
 
-    this.onscreen.forEach(function(sprite) {
+    this.sprites.forEach(function(sprite) {
         scrollerDemolet.updateSpritePosition(sprite);
     });
 
