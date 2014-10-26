@@ -22,7 +22,10 @@
 /*
  * Define your demolet with this "fooDemolet" naming convention. It is created as an Object type.
  */
-var templateDemolet = { "path": "demolets/demolet_template/" };
+var templateDemolet = {
+    "path": "demolets/demolet_template/",
+    "running": false
+    };
 
 /*
  * init()
@@ -38,6 +41,15 @@ templateDemolet.init = function() {
 
     //Store an array of our sprites on our Demolet object.
     this.sprites = [ ];
+    this.start();
+
+}
+
+/*
+ * The start() function should set your Demolet in motion. It should not last for infinity, and
+ * it should set the running value to false when it is done.
+ */
+templateDemolet.start = function() {
 
     // create square sprites
     for (var i=2; i<6; i++) {
