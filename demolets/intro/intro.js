@@ -34,6 +34,9 @@ introDemolet.init = function() {
 
     // Show the intro Demolet for a few seconds before switching to the main loop.
     window.setTimeout(introDemolet.finish, 5000);
+
+    // remove this line to let the intro run
+    introDemolet.finish();
 }
 
 introDemolet.finish = function() {
