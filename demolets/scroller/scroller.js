@@ -67,7 +67,7 @@ scrollerDemolet.init = function() {
      */
 
 
-    this.words = "HELLO WORLD! "; // HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
+    this.words = "HELLO WORLD! HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
 
     // build a alpha-numeric texture map
     this.textureMap = { };
@@ -101,6 +101,8 @@ scrollerDemolet.init = function() {
     this.on = false;
     // Delay start by this many seconds
     this.startDelay = 0;
+    // Start tinting words after this position
+    this.tintAfter = 12;
 
     window.setTimeout(function() {
         scrollerDemolet.on = true;
@@ -126,7 +128,7 @@ scrollerDemolet.fillScroller = function() {
         var charTexture = this.textureMap[nextChar];
 
         // rotate tint by word
-        if (nextChar == ' ')
+        if (this.scrollerPosition > this.tintAfter && nextChar == ' ')
             this.tint = Demo.requestTint();
 
         // ignore missing character textures
