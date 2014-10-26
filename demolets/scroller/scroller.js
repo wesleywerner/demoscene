@@ -69,11 +69,11 @@ scrollerDemolet.init = function() {
      *
      */
 
-    this.words = "HELLO WORLD! HERE IS OUR FIRST EVER SCROLLER. I HOPE YOU ENJOY IT <3";
+    this.words = "HELLO THERE. WESLEY HERE ATTACKING YOU WITH AN OLD-SCHOOL AMIGA SCROLLER! THIS DEMO IS WRITTEN IN JAVASCRIPT USING THE PIXI WEBGL FRAMEWORK. IT IS PRETTY SWEET AND WORTH LEARNING - WWW.PIXIJS.COM                       NOW LET US SWITCH TO FUN MODE        :) AH MUCH BETTER!               SO THIS IS MY FIRST EVER SCROLLER IN JS, I HOPE YOU ENJOY IT <3 . . . THAT SINE WAVE FUNCTION IS A GEM . . . THAT IS ALL FOR NOW, ENJOY THE REST OF THE SHOW ******** SIGNED WESLEY AKA KEYBOARD MONKEY #!/BIN/SH EOF **************************************";
 
     // build a alpha-numeric texture map
     this.textureMap = { };
-    var alphabet = " .,!#<0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var alphabet = " .,:!*#</)0123456789-ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     for(var i=0; i < alphabet.length-1; i++) {
         var c = alphabet.charAt(i);
         var s = new PIXI.Text(c, { font: "30px Impact", fill: "white", stroke: "black", strokeThickness: "6" });
@@ -107,7 +107,7 @@ scrollerDemolet.init = function() {
     /* Settings below this line are customized for this particular scroller */
 
     // Start tinting words after this position
-    this.tintAfter = 12;
+    this.tintAfter = 237;
 
     // Load the background image
     var background = new PIXI.Sprite.fromImage(this.path + "background.png");
@@ -115,7 +115,7 @@ scrollerDemolet.init = function() {
     background.visible = false;
     stage.addChild(background);
     var bgX = (Demo.stageW / 2) - (background.width / 2)
-    var bgY = Demo.stageH - background.height - 16;
+    var bgY = Demo.stageH - background.height - 32;
     background.position.set(bgX, Demo.stageH);
     this.scrollX = (Demo.stageW - 64);
     this.scrollY = bgY + 32;
