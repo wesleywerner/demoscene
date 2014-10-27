@@ -57,7 +57,6 @@
             templateDemolet,
             glowingskullsDemolet,
             pixelateFilter,
-            scrollerDemolet
             ]
 
         // Initialize the Demolets.
@@ -137,6 +136,14 @@
             }
 
             }());
+
+        // Start the scroller text in a little while
+        window.setTimeout(function() {
+            scrollerDemolet.init();
+            scrollerDemolet.resize(Demo.stageW, Demo.stageH);
+            Demo.lets.push(scrollerDemolet);
+            scrollerDemolet.start();
+        }, 5000);
 
     </script>
 

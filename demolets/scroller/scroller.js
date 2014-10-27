@@ -102,8 +102,6 @@ scrollerDemolet.init = function() {
     this.restartDelay = 1000;
     // The scroller is on
     this.on = false;
-    // Delay start by this many seconds
-    this.startDelay = 10;
 
     /* Settings below this line are customized for this particular scroller */
 
@@ -125,17 +123,14 @@ scrollerDemolet.init = function() {
 
     // Background image target Y position. Offers a slide-in effect when showing the background.
     this.backgroundTargetY = bgY;
-    this.start();
 
 }
 
 scrollerDemolet.start = function() {
 
     this.running = true;
-    window.setTimeout(function() {
-        scrollerDemolet.on = true;
-        scrollerDemolet.background.visible = true;
-    }, this.startDelay * 1000);
+    this.on = true;
+    this.background.visible = true;
 
 }
 
