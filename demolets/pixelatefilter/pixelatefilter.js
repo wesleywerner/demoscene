@@ -30,9 +30,6 @@ pixelateFilter.init = function() {
     this.pixelateLevel = 10;
     this.filter = new PIXI.PixelateFilter();
 
-    //TODO remove
-    this.start();
-
 }
 
 pixelateFilter.start = function() {
