@@ -53,14 +53,13 @@
 
         // Define the list of Demolets we will be running
         Demo.lets = [
-            tiledbackgroundDemolet,
             templateDemolet,
             glowingskullsDemolet,
             pixelateFilter,
             ]
 
         // Initialize the Demolets.
-        Demo.lets.forEach(function(demolet) {
+        Demo.lets.concat([tiledbackgroundDemolet]).forEach(function(demolet) {
             demolet.init();
             demolet.resize(Demo.stageW, Demo.stageH);
         });
@@ -71,6 +70,9 @@
 
         // Our animation callback
         function animate() {
+
+            // update the background
+            tiledbackgroundDemolet.update();
 
             // update each Demolet
             runningCount = 0;
