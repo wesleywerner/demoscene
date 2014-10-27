@@ -103,7 +103,7 @@ scrollerDemolet.init = function() {
     // The scroller is on
     this.on = false;
     // Delay start by this many seconds
-    this.startDelay = 0;
+    this.startDelay = 10;
 
     /* Settings below this line are customized for this particular scroller */
 
