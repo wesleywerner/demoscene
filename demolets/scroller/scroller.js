@@ -93,9 +93,9 @@ scrollerDemolet.init = function() {
     this.scrollSpeed = 6;
     // Start the scroll at this point
     this.scrollX = Demo.stageW;
-    this.scrollY = Demo.stageH / 2;
+    this.scrollY = 64;
     // End the scroll here
-    this.scrollEndsAtX = 0;
+    this.scrollEndsAtX = -48;
     // Tint sprites
     this.tint = 0xFFFFFF;
     // Wait this many updates before restarting the scroller text.
@@ -110,19 +110,11 @@ scrollerDemolet.init = function() {
 
     // Load the background image
     var background = new PIXI.Sprite.fromImage(this.path + "background.png");
-    background.width = (Demo.stageW - 64);
     background.visible = false;
+    background.position.set(0, -background.height);
+    this.backgroundTargetY = 16;
     stage.addChild(background);
-    var bgX = (Demo.stageW / 2) - (background.width / 2)
-    var bgY = Demo.stageH - background.height - 32;
-    background.position.set(bgX, Demo.stageH);
-    this.scrollX = (Demo.stageW - 64);
-    this.scrollY = bgY + 32;
-    this.scrollEndsAtX = bgX;
     this.background = background;
-
-    // Background image target Y position. Offers a slide-in effect when showing the background.
-    this.backgroundTargetY = bgY;
 
 }
 
@@ -191,8 +183,8 @@ scrollerDemolet.update = function() {
     });
 
     // slide the background into view
-    if (this.background.visible && this.background.y > this.backgroundTargetY)
-        this.background.y -= 1;
+    if (this.background.visible && this.background.y < this.backgroundTargetY)
+        this.background.y += 1;
 
 }
 
@@ -205,6 +197,8 @@ scrollerDemolet.resize = function(w, h) {
     for (var i=0; i < w; i++) {
         this.lookup.push(this.sinWave(40, 0.009, i, 0));
     }
+
+    this.background.width = Demo.stageW;
 
 }
 
