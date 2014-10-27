@@ -20,10 +20,20 @@
  */
 
 /*
- * Define your demolet with this "fooDemolet" naming convention. It is created as an Object type.
+ * Your Demolet must follow this "fooDemolet" naming convention.
+ *
+ * path
+ *      Load resources by using this.path + 'image.png'
+ * frequency
+ *      The % chance your Demolet is chosen to run. 0.5 is 50%.
+ * running
+ *      Bool you have to manage, so Demoscene knows while your Demolet is busy.
+ *      When your effect is done, set this false, and Demoscene knows a slot is freed up to start
+ *      another Demolet :)
  */
 var templateDemolet = {
     "path": "demolets/demolet_template/",
+    "frequency": 1,
     "running": false
     };
 
@@ -49,6 +59,9 @@ templateDemolet.init = function() {
  * it should set the running value to false when it is done.
  */
 templateDemolet.start = function() {
+
+    // store an internal counter for our Demolet
+    this.counter = 0;
 
     // create square sprites
     for (var i=2; i<6; i++) {
@@ -101,6 +114,28 @@ templateDemolet.update = function() {
     this.sprites.forEach(function(sprite, index) {
         sprite.rotation -= 0.01 * (5 - index);
     });
+
+    // count up each update and check for finish condition
+    this.counter++;
+    this.finish();
+
+}
+
+/*
+ * finish()
+ *
+ * Not called by Demoscene directly, but is a good way to test for finish conditions in your loop.
+ */
+templateDemolet.finish = function() {
+
+    if (this.counter == 500) {
+        // let Demolet know we are done
+        this.running = false;
+        // we are responsible for remove our assets from the stage
+        this.sprites.forEach(function(sprite) {
+            stage.removeChild(sprite);
+        });
+    }
 
 }
 
