@@ -53,6 +53,7 @@
 
         // Define the list of Demolets we will be running
         Demo.lets = [
+            tiledbackgroundDemolet,
             templateDemolet,
             glowingskullsDemolet,
             pixelateFilter,
@@ -60,19 +61,23 @@
             ]
 
         // Initialize the Demolets.
-        Array.concat([tiledbackgroundDemolet], Demo.lets).forEach(function(demolet) {
+        Demo.lets.forEach(function(demolet) {
             demolet.init();
             demolet.resize(Demo.stageW, Demo.stageH);
         });
 
         requestAnimFrame(animate);
 
+        var runningCount = 0;
+
         // Our animation callback
         function animate() {
 
             // update each Demolet
+            runningCount = 0;
             Demo.lets.forEach(function(demolet) {
                 if (demolet.running) {
+                    runningCount++;
                     demolet.update();
                 }
             });
@@ -81,6 +86,20 @@
             renderer.render(stage);
             requestAnimFrame(animate);
 
+        }
+
+        window.setTimeout(queueDemolets, 5000);
+        function queueDemolets() {
+            console.log('checking if we can start a Demolet. there are '+runningCount+' running');
+            if (runningCount < 4) {
+                var randomIndex = getRandomInt(0, Demo.lets.length - 1);
+                if (Demo.lets[randomIndex].running == false) {
+                    console.log('starting Demolet #'+randomIndex);
+                    Demo.lets[randomIndex].resize(Demo.stageW, Demo.stageH);
+                    Demo.lets[randomIndex].start();
+                }
+            }
+            window.setTimeout(queueDemolets, 5000);
         }
 
         // handle window resize events, with a limiter to avoid unnecessary calls
