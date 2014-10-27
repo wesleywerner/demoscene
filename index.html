@@ -89,18 +89,25 @@
         }
 
         window.setTimeout(queueDemolets, 5000);
+
+        // Check if we can start a Demolet
         function queueDemolets() {
-            console.log('checking if we can start a Demolet. there are '+runningCount+' running');
+
+            // Not enough Demolets are busy running
             if (runningCount < 4) {
-                var randomIndex = getRandomInt(0, Demo.lets.length - 1);
-                if (Demo.lets[randomIndex].running == false) {
-                    Demo.lets[randomIndex].resize(Demo.stageW, Demo.stageH);
-                    if (Demo.lets[randomIndex].start != undefined) {
-                        console.log('starting Demolet #'+randomIndex);
-                        Demo.lets[randomIndex].start();
-                    }
-                }
+
+                // Filter out the non-running Demolets
+                var availableDemolets = Demo.lets.filter(function(test){ return !test.running && test.start != undefined; });
+                if (availableDemolets.length == 0) return;
+
+                // Start a random Demolet
+                var randLet = availableDemolets[getRandomInt(0, availableDemolets.length - 1)];
+                randLet.resize(Demo.stageW, Demo.stageH);
+                randLet.start();
+
             }
+
+            // Recall this function again
             window.setTimeout(queueDemolets, 5000);
         }
 
