@@ -20,7 +20,8 @@
  */
 
 var pixelateFilter = {
-    "path": "demolets/demolet_template/",
+    "path": "demolets/pixelatefilter/",
+    "frequency": 0.1,
     "running": false
     };
 

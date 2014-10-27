@@ -22,6 +22,7 @@
 
 var scrollerDemolet = {
     "path": "demolets/scroller/",
+    "frequency": 1,
     "running": false
     };
 

@@ -20,7 +20,11 @@
  *
  */
 
-var tiledbackgroundDemolet = { 'path': 'demolets/tiledbackground/' };
+var tiledbackgroundDemolet = {
+    "path": "demolets/tiledbackground/",
+    "frequency": 0.1,
+    "running": false
+    };
 
 tiledbackgroundDemolet.init = function() {
 

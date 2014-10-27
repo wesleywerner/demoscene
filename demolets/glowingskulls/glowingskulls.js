@@ -22,6 +22,7 @@
 
 var glowingskullsDemolet = {
     "path": "demolets/glowingskulls/",
+    "frequency": 0.1,
     "running": false
     };
 

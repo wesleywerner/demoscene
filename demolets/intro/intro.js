@@ -20,7 +20,11 @@
  *
  */
 
-var introDemolet = { };
+var introDemolet = {
+    "path": "demolets/intro/",
+    "frequency": 1,
+    "running": false
+    };
 
 introDemolet.init = function() {
 
