@@ -35,7 +35,6 @@
     <script type="text/javascript" src="js/helpers.js"></script>
     <!-- demolets -->
     <script type="text/javascript" src="demolets/demolet_template/template.js"></script>
-    <script type="text/javascript" src="demolets/intro/intro.js"></script>
     <script type="text/javascript" src="demolets/scroller/scroller.js"></script>
     <script type="text/javascript" src="demolets/tiledbackground/tiledbackground.js"></script>
     <script type="text/javascript" src="demolets/glowingskulls/glowingskulls.js"></script>
@@ -54,37 +53,28 @@
 
         // Define the list of Demolets we will be running
         Demo.lets = [
-            tiledbackgroundDemolet,
             templateDemolet,
             glowingskullsDemolet,
-            scrollerDemolet,
-            pixelateFilter
+            pixelateFilter,
+            scrollerDemolet
             ]
 
-        // Initialize the Demolets
-        Array.concat(Demo.lets, introDemolet).forEach(function(demolet) {
+        // Initialize the Demolets.
+        Array.concat([tiledbackgroundDemolet], Demo.lets).forEach(function(demolet) {
             demolet.init();
             demolet.resize(Demo.stageW, Demo.stageH);
         });
 
-        requestAnimFrame(animate_intro);
-
-        // Our intro animation. It triggers the main animation when it is done.
-        function animate_intro() {
-            introDemolet.update();
-            renderer.render(stage);
-            if (introDemolet.done == true)
-                requestAnimFrame(animate);
-            else
-                requestAnimFrame(animate_intro);
-        }
+        requestAnimFrame(animate);
 
         // Our animation callback
         function animate() {
 
             // update each Demolet
             Demo.lets.forEach(function(demolet) {
-                demolet.update();
+                if (demolet.running) {
+                    demolet.update();
+                }
             });
 
             // Render the scene and request the next animation frame
