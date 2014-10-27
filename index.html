@@ -96,7 +96,9 @@
                 if (Demo.lets[randomIndex].running == false) {
                     console.log('starting Demolet #'+randomIndex);
                     Demo.lets[randomIndex].resize(Demo.stageW, Demo.stageH);
-                    Demo.lets[randomIndex].start();
+                    if (Demo.lets[randomIndex].start != undefined) {
+                        Demo.lets[randomIndex].start();
+                    }
                 }
             }
             window.setTimeout(queueDemolets, 5000);
