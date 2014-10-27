@@ -94,9 +94,9 @@
             if (runningCount < 4) {
                 var randomIndex = getRandomInt(0, Demo.lets.length - 1);
                 if (Demo.lets[randomIndex].running == false) {
-                    console.log('starting Demolet #'+randomIndex);
                     Demo.lets[randomIndex].resize(Demo.stageW, Demo.stageH);
                     if (Demo.lets[randomIndex].start != undefined) {
+                        console.log('starting Demolet #'+randomIndex);
                         Demo.lets[randomIndex].start();
                     }
                 }
