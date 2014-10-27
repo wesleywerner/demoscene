@@ -53,7 +53,7 @@
 
         // Define the list of Demolets we will be running
         Demo.lets = [
-            templateDemolet,
+            //templateDemolet,
             glowingskullsDemolet,
             pixelateFilter,
             ]
@@ -102,12 +102,14 @@
                     function(test){
                         return !test.running && test.start != undefined && Math.random() < test.frequency;
                         });
-                if (availableDemolets.length == 0) return;
+                if (availableDemolets.length > 0) {
 
-                // Start a random Demolet
-                var randLet = availableDemolets[getRandomInt(0, availableDemolets.length - 1)];
-                randLet.resize(Demo.stageW, Demo.stageH);
-                randLet.start();
+                    // Start a random Demolet
+                    var randLet = availableDemolets[getRandomInt(0, availableDemolets.length - 1)];
+                    randLet.resize(Demo.stageW, Demo.stageH);
+                    randLet.start();
+
+                }
 
             }
 
