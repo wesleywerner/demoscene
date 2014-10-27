@@ -58,3 +58,40 @@ Demo.requestTint = function(tintName) {
     else
         return this.tintTable[tintName];
 }
+
+/*
+ * Request a filter to be added to the stage.
+ */
+Demo.requestFilter = function(filter) {
+
+    // check if the filters list exists
+    if (stage.filters == undefined) {
+        stage.filters = [ filter ];
+    }
+    else {
+        stage.filters.push(filter);
+    }
+}
+
+/*
+ * Remove the given filter from the stage.
+ */
+Demo.removeFilter = function(filter) {
+
+
+    // check if the filters list exists
+    if (stage.filters == undefined) {
+        stage.filters = [ ];
+    }
+
+    if (stage.filters.length == 1) {
+        stage.filters.pop();
+    }
+    else {
+        var index = stage.filters.indexOf(this.filter);
+        if (index > -1) {
+            stage.filters = stage.filters.slice(0, index).concat(index+1);
+            stage.filters = null;
+        }
+    }
+}
