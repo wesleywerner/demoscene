@@ -60,6 +60,8 @@ templateDemolet.init = function() {
  */
 templateDemolet.start = function() {
 
+    this.running = true;
+
     // store an internal counter for our Demolet
     this.counter = 0;
 
@@ -68,6 +70,7 @@ templateDemolet.start = function() {
         var newSprite = PIXI.Sprite.fromImage(this.path + "gradient.png");
         newSprite.anchor.x = 0.5;
         newSprite.anchor.y = 0.5;
+        newSprite.position.set(Demo.stageW / 2, Demo.stageH / 2);
 
         /*
          * Demo.requestTint(name)
@@ -93,6 +96,7 @@ templateDemolet.start = function() {
     var textSprite = new PIXI.Text("This is the Template Demolet.", { fill: "white", align: "left" });
     textSprite.anchor.x = 0.5;
     textSprite.anchor.y = 0.5;
+    textSprite.position.set(Demo.stageW / 2, Demo.stageH / 2);
     this.sprites.push(textSprite);
 
     // Add our sprite to the stage. If we don't add it, it won't get rendered.
