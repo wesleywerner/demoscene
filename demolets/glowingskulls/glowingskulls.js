@@ -65,6 +65,7 @@ glowingskullsDemolet.start = function() {
 glowingskullsDemolet.finish = function() {
     this.liveSkulls--;
     if (this.liveSkulls == 0) {
+        this.running = false;
         glowingskullsDemolet.infos.forEach(function(info) {
             stage.removeChild(info.sprite);
         });
