@@ -98,7 +98,10 @@
             if (runningCount < 4) {
 
                 // Filter out the non-running Demolets
-                var availableDemolets = Demo.lets.filter(function(test){ return !test.running && test.start != undefined; });
+                var availableDemolets = Demo.lets.filter(
+                    function(test){
+                        return !test.running && test.start != undefined && Math.random() < test.frequency;
+                        });
                 if (availableDemolets.length == 0) return;
 
                 // Start a random Demolet
