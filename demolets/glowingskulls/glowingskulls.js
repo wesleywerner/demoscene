@@ -22,7 +22,7 @@
 
 var glowingskullsDemolet = {
     "path": "demolets/glowingskulls/",
-    "frequency": 0.1,
+    "frequency": 0.3,
     "running": false
     };
 
@@ -33,8 +33,6 @@ glowingskullsDemolet.init = function() {
     this.liveSkulls = 0;
     this.texture = PIXI.Texture.fromImage(this.path + "glowingskull.png");
 
-    // TODO to be called by the demo main loop
-    this.start();
 }
 
 glowingskullsDemolet.start = function() {
@@ -65,10 +63,10 @@ glowingskullsDemolet.start = function() {
 glowingskullsDemolet.finish = function() {
     this.liveSkulls--;
     if (this.liveSkulls == 0) {
-        this.running = false;
         glowingskullsDemolet.infos.forEach(function(info) {
             stage.removeChild(info.sprite);
         });
+        this.running = false;
     }
 }
 
