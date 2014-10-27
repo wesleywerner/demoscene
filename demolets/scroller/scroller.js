@@ -131,6 +131,7 @@ scrollerDemolet.init = function() {
 
 scrollerDemolet.start = function() {
 
+    this.running = true;
     window.setTimeout(function() {
         scrollerDemolet.on = true;
         scrollerDemolet.background.visible = true;
