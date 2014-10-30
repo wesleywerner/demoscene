@@ -17,6 +17,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
+ *
+ *
+ *
+ * The wonderful code for this cube is by Peter Collingridge, you
+ * can find his tutorial on this at:
+ *
+ * http://petercollingridge.appspot.com/3D-tutorial
+ *
  */
 
 var cubeDemolet = {
