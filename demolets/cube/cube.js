@@ -75,7 +75,8 @@ cubeDemolet.start = function() {
 
     cubeDemolet.positionX = 200;
     cubeDemolet.positionY = 200;
-    cubeDemolet.scale = 2;
+    cubeDemolet.scale = 1;
+    cubeDemolet.mouseP = stage.getMousePosition();
 
     cubeDemolet.angleX = 0.005;
     cubeDemolet.angleY = 0.02;
@@ -91,6 +92,10 @@ cubeDemolet.update = function() {
     cubeDemolet.gfx.clear();
     cubeDemolet.gfx.beginFill(cubeDemolet.lineColor, 0.5);
     cubeDemolet.gfx.lineStyle(2, cubeDemolet.lineColor, 0.5);
+
+    var mp = stage.getMousePosition();
+    cubeDemolet.angleY = clamp( (cubeDemolet.positionX - mp.x) * 0.0001, -0.01, 0.01);
+    cubeDemolet.angleX = clamp( (cubeDemolet.positionY - mp.y) * 0.0001, -0.01, 0.01);
 
     // rotate the cube
     cubeDemolet.rotateZ3D(cubeDemolet.angleZ);
