@@ -33,49 +33,78 @@ cubeDemolet.init = function() {
 
 cubeDemolet.start = function() {
 
+    // Do we need to Translate() our graphics?
+
     stage.addChild(this.gfx);
+    cubeDemolet.counter = 0;
     cubeDemolet.running = true;
 
-    cubeDemolet.vertices = [
-            [-1,1,-1],
-            [1,1,-1],
-            [1,-1,-1],
-            [-1,-1,-1],
-            [-1,1,1],
-            [1,1,1],
-            [1,-1,1],
-            [-1,-1,1]
-        ];
+    var node0 = [-100, -100, -100];
+    var node1 = [-100, -100,  100];
+    var node2 = [-100,  100, -100];
+    var node3 = [-100,  100,  100];
+    var node4 = [ 100, -100, -100];
+    var node5 = [ 100, -100,  100];
+    var node6 = [ 100,  100, -100];
+    var node7 = [ 100,  100,  100];
 
-    cubeDemolet.angleX = 0;
-    cubeDemolet.angleY = 0;
-    cubeDemolet.angleZ = 0;
+    cubeDemolet.nodes = [node0, node1, node2, node3, node4, node5, node6, node7];
+
+    var edge0  = [0, 1];
+    var edge1  = [1, 3];
+    var edge2  = [3, 2];
+    var edge3  = [2, 0];
+    var edge4  = [4, 5];
+    var edge5  = [5, 7];
+    var edge6  = [7, 6];
+    var edge7  = [6, 4];
+    var edge8  = [0, 4];
+    var edge9  = [1, 5];
+    var edge10 = [2, 6];
+    var edge11 = [3, 7];
+
+    cubeDemolet.edges = [edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, edge10, edge11];
+
+    cubeDemolet.positionX = 200;
+    cubeDemolet.positionY = 200;
+    cubeDemolet.scale = 2;
+
+    cubeDemolet.angleX = 0.005;
+    cubeDemolet.angleY = 0.02;
+    cubeDemolet.angleZ = 0.01;
+
+    cubeDemolet.lineColor = Demo.requestTint('orange');
+
 }
 
 cubeDemolet.update = function() {
 
+    cubeDemolet.counter++;
     cubeDemolet.gfx.clear();
-    cubeDemolet.gfx.lineStyle(1, this.borderColor, 0.5);
-    cubeDemolet.gfx.beginFill(this.fillColor, 0.5);
+    cubeDemolet.gfx.beginFill(cubeDemolet.lineColor, 0.5);
+    cubeDemolet.gfx.lineStyle(2, cubeDemolet.lineColor, 0.5);
 
-    this.vertices.forEach(function(point) {
-        // Rotate the point around X axis, then around Y axis, and finally around Z axis.
-        //var r = v.rotateX(self.angleX).rotateY(self.angleY).rotateZ(self.angleZ)
-        var r = cubeDemolet.rotateX(point, cubeDemolet.angleX);
-        r = cubeDemolet.rotateY(r, cubeDemolet.angleY);
-        r = cubeDemolet.rotateZ(r, cubeDemolet.angleZ);
+    // rotate the cube
+    cubeDemolet.rotateZ3D(cubeDemolet.angleZ);
+    cubeDemolet.rotateY3D(cubeDemolet.angleY);
+    cubeDemolet.rotateX3D(cubeDemolet.angleX);
 
-        // Transform the point from 3D to 2D
-        //var p = r.project(self.screen.get_width(), self.screen.get_height(), 256, 4)
-        var p = cubeDemolet.project(r, window.innerWidth, window.innerHeight, 256, 4);
-        var x = p[0];
-        var y = p[1];
+    // draw the edges
+    this.edges.forEach(function(edge) {
+        cubeDemolet.gfx.moveTo(
+            (cubeDemolet.nodes[edge[0]][0] + cubeDemolet.positionX) * cubeDemolet.scale,
+            (cubeDemolet.nodes[edge[0]][1] + cubeDemolet.positionY) * cubeDemolet.scale );
+        cubeDemolet.gfx.lineTo(
+            (cubeDemolet.nodes[edge[1]][0] + cubeDemolet.positionX) * cubeDemolet.scale,
+            (cubeDemolet.nodes[edge[1]][1] + cubeDemolet.positionY) * cubeDemolet.scale );
+    });
 
-        //cubeDemolet.angleX += 0.1;
-        cubeDemolet.angleY += 0.1;
-        //cubeDemolet.angleZ += 0.1;
-
-        cubeDemolet.gfx.drawCircle(x, y, 3);
+    // draw the node point
+    this.nodes.forEach(function(node) {
+        cubeDemolet.gfx.drawCircle(
+            (node[0] + cubeDemolet.positionX)  * cubeDemolet.scale,
+            (node[1] + cubeDemolet.positionY)  * cubeDemolet.scale
+            , 6);
     });
 
     //this.finish();
@@ -84,7 +113,8 @@ cubeDemolet.update = function() {
 
 cubeDemolet.finish = function() {
 
-    if (this.counter > 500) {
+    this.counter++;
+    if (this.counter == 200) {
         stage.removeChild(this.gfx);
         this.running = false;
     }
@@ -96,82 +126,38 @@ cubeDemolet.resize = function(w, h) {
 
 }
 
-//  http://codentronix.com/2011/04/20/simulation-of-3d-point-rotation-with-python-and-pygame/
+cubeDemolet.rotateZ3D = function(theta) {
+    var sin_t = Math.sin(theta);
+    var cos_t = Math.cos(theta);
 
-cubeDemolet.rotateX = function(points, angle) {
+    cubeDemolet.nodes.forEach(function(node) {
+        var x = node[0];
+        var y = node[1];
+        node[0] = x * cos_t - y * sin_t;
+        node[1] = y * cos_t + x * sin_t;
+    });
+};
 
-    //Rotation along X:
-    //y' = y*cos(a) - z*sin(a)
-    //z' = y*sin(a) + z*cos(a)
-    //x' = x
+cubeDemolet.rotateY3D = function(theta) {
+    var sin_t = Math.sin(theta);
+    var cos_t = Math.cos(theta);
 
-    // Rotates the point around the X axis by the given angle in degrees.
-    var x = points[0];
-    var y = points[1];
-    var z = points[2];
+    cubeDemolet.nodes.forEach(function(node) {
+        var x = node[0];
+        var z = node[2];
+        node[0] = x * cos_t - z * sin_t;
+        node[2] = z * cos_t + x * sin_t;
+    });
+};
 
-    var rad = angle * Math.PI / 180;
-    var cosa = Math.cos(rad);
-    var sina = Math.sin(rad);
-    y = (y * cosa) - (z * sina);
-    z = (y * sina) + (z * cosa);
-    return [x, y, z];
-}
+cubeDemolet.rotateX3D = function(theta) {
+    var sin_t = Math.sin(theta);
+    var cos_t = Math.cos(theta);
 
-cubeDemolet.rotateY = function(points, angle) {
-
-    //Rotation along Y:
-    //z' = z*cos(a) - x*sin(a)
-    //x' = z*sin(a) + x*cos(a)
-    //y' = y
-
-    // Rotates the point around the Y axis by the given angle in degrees.
-    var x = points[0];
-    var y = points[1];
-    var z = points[2];
-
-    var rad = angle * Math.PI / 180;
-    var cosa = Math.cos(rad);
-    var sina = Math.sin(rad);
-    z = (z * cosa) - (x * sina);
-    x = (z * sina) + (x * cosa);
-    return [x, y, z];
-}
-
-cubeDemolet.rotateZ = function(points, angle) {
-
-    //Rotation along Z:
-    //x' = x*cos(a) - y*sin(a)
-    //y' = x*sin(a) + y*cos(a)
-    //z' = z
-
-    // Rotates the point around the Z axis by the given angle in degrees.
-    var x = points[0];
-    var y = points[1];
-    var z = points[2];
-
-    var rad = angle * Math.PI / 180;
-    var cosa = Math.cos(rad);
-    var sina = Math.sin(rad);
-    x = (x * cosa) - (y * sina);
-    y = (x * sina) + (y * cosa);
-    return [x, y, z];
-}
-
-cubeDemolet.project = function(points, win_width, win_height, fov, viewer_distance) {
-
-    //3D Perspective Projection
-    //x' = x * fov / (z + viewer_distance) + half_screen_width
-    //y' = -y * fov / (z + viewer_distance) + half_screen_height
-    //z' -> for now, z is useless
-
-    // Transforms this 3D point to 2D using a perspective projection.
-    var x = points[0];
-    var y = points[1];
-    var z = points[2];
-
-    var factor = fov / (viewer_distance + z);
-    x = (x * factor) + (win_width / 2);
-    y = (-y * factor) + (win_height / 2);
-    return [x, y, z];
-}
+    cubeDemolet.nodes.forEach(function(node) {
+        var y = node[1];
+        var z = node[2];
+        node[1] = y * cos_t - z * sin_t;
+        node[2] = z * cos_t + y * sin_t;
+    });
+};
