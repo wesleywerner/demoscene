@@ -32,3 +32,10 @@ function getRandomArbitrary(min, max) {
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/**
+ * Limit input to a range.
+ */
+function clamp(v, min, max) {
+    return v > max ? max : v < min ? min : v;
+}
