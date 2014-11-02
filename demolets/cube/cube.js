@@ -29,7 +29,7 @@
 
 var cubeDemolet = {
     "path": "demolets/cube/",
-    "frequency": 1,
+    "frequency": 0.1,
     "running": false
     };
 
@@ -155,11 +155,11 @@ cubeDemolet.update = function() {
 
 cubeDemolet.finish = function() {
 
-    if (this.positionX > Demo.sceneW) {
+    if (this.positionX > Demo.stageW) {
+console.log('quitting cube');
         stage.removeChild(this.gfx);
         this.running = false;
     }
-
 }
 
 cubeDemolet.resize = function(w, h) {
