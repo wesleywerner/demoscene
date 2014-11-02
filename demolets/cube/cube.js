@@ -44,7 +44,6 @@ cubeDemolet.start = function() {
     // Do we need to Translate() our graphics?
 
     stage.addChild(this.gfx);
-    cubeDemolet.counter = 0;
     cubeDemolet.running = true;
 
     // the outer cube
@@ -98,15 +97,11 @@ cubeDemolet.start = function() {
     var edge30 = [10, 14];
     var edge31 = [11, 15];
 
-    // corner links between cubes
-    var edge40 =
-
     cubeDemolet.edges = [edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, edge10, edge11,
                          edge20, edge21, edge22, edge23, edge24, edge25, edge26, edge27, edge28, edge29, edge30, edge31];
 
     cubeDemolet.positionX = 200;
     cubeDemolet.positionY = 200;
-    cubeDemolet.scale = 1;
     cubeDemolet.mouseP = stage.getMousePosition();
 
     cubeDemolet.angleX = 0.005;
@@ -119,16 +114,18 @@ cubeDemolet.start = function() {
 
 cubeDemolet.update = function() {
 
-    cubeDemolet.counter++;
     cubeDemolet.gfx.clear();
     cubeDemolet.gfx.beginFill(cubeDemolet.lineColor, 0.5);
     cubeDemolet.gfx.lineStyle(2, cubeDemolet.lineColor, 0.5);
 
+    // move the cube
+    this.positionX += 2;
+    this.positionY = (Demo.stageH / 2) + this.positionTable[this.positionX];
+
+    // rotate the cube
     var mp = stage.getMousePosition();
     cubeDemolet.angleY = clamp( (cubeDemolet.positionX - mp.x) * 0.0001, -0.01, 0.01);
     cubeDemolet.angleX = clamp( (cubeDemolet.positionY - mp.y) * 0.0001, -0.01, 0.01);
-
-    // rotate the cube
     cubeDemolet.rotateZ3D(cubeDemolet.angleZ);
     cubeDemolet.rotateY3D(cubeDemolet.angleY);
     cubeDemolet.rotateX3D(cubeDemolet.angleX);
@@ -136,29 +133,28 @@ cubeDemolet.update = function() {
     // draw the edges
     cubeDemolet.edges.forEach(function(edge) {
         cubeDemolet.gfx.moveTo(
-            (cubeDemolet.nodes[edge[0]][0] + cubeDemolet.positionX) * cubeDemolet.scale,
-            (cubeDemolet.nodes[edge[0]][1] + cubeDemolet.positionY) * cubeDemolet.scale );
+            (cubeDemolet.nodes[edge[0]][0] + cubeDemolet.positionX),
+            (cubeDemolet.nodes[edge[0]][1] + cubeDemolet.positionY) );
         cubeDemolet.gfx.lineTo(
-            (cubeDemolet.nodes[edge[1]][0] + cubeDemolet.positionX) * cubeDemolet.scale,
-            (cubeDemolet.nodes[edge[1]][1] + cubeDemolet.positionY) * cubeDemolet.scale );
+            (cubeDemolet.nodes[edge[1]][0] + cubeDemolet.positionX),
+            (cubeDemolet.nodes[edge[1]][1] + cubeDemolet.positionY) );
     });
 
     // draw the node point
     this.nodes.forEach(function(node) {
         cubeDemolet.gfx.drawCircle(
-            (node[0] + cubeDemolet.positionX)  * cubeDemolet.scale,
-            (node[1] + cubeDemolet.positionY)  * cubeDemolet.scale
+            (node[0] + cubeDemolet.positionX),
+            (node[1] + cubeDemolet.positionY)
             , 6);
     });
 
-    //this.finish();
+    this.finish();
 
 }
 
 cubeDemolet.finish = function() {
 
-    this.counter++;
-    if (this.counter == 200) {
+    if (this.positionX > Demo.sceneW) {
         stage.removeChild(this.gfx);
         this.running = false;
     }
@@ -167,6 +163,22 @@ cubeDemolet.finish = function() {
 
 cubeDemolet.resize = function(w, h) {
 
+    // build a lookup table of where each of our Y-points map to the X-space.
+    this.positionTable = [ ]
+    for (var i=0; i < w; i++) {
+        this.positionTable.push(this.sinWave(200, 0.009, i, 0));
+    }
+
+}
+
+cubeDemolet.sinWave = function(A, w, t, p) {
+
+    // f(x) = A sin(wt + p)
+    //  A is the amplitude
+    //  w is the frequency
+    //  p is the phase
+
+    return A * Math.sin(w * t + p);
 
 }
 
