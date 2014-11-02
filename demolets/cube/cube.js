@@ -36,6 +36,7 @@ var cubeDemolet = {
 cubeDemolet.init = function() {
 
     this.gfx = new PIXI.Graphics();
+    this.alphaTable = [ ];
 
 }
 
@@ -100,7 +101,7 @@ cubeDemolet.start = function() {
     cubeDemolet.edges = [edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, edge10, edge11,
                          edge20, edge21, edge22, edge23, edge24, edge25, edge26, edge27, edge28, edge29, edge30, edge31];
 
-    cubeDemolet.positionX = 200;
+    cubeDemolet.positionX = 0;
     cubeDemolet.positionY = 200;
     cubeDemolet.mouseP = stage.getMousePosition();
 
@@ -115,8 +116,8 @@ cubeDemolet.start = function() {
 cubeDemolet.update = function() {
 
     cubeDemolet.gfx.clear();
-    cubeDemolet.gfx.beginFill(cubeDemolet.lineColor, 0.5);
-    cubeDemolet.gfx.lineStyle(2, cubeDemolet.lineColor, 0.5);
+    cubeDemolet.gfx.beginFill(cubeDemolet.lineColor, this.alphaTable[this.positionX]);
+    cubeDemolet.gfx.lineStyle(2, cubeDemolet.lineColor, this.alphaTable[this.positionX]);
 
     // move the cube
     this.positionX += 2;
@@ -167,6 +168,15 @@ cubeDemolet.resize = function(w, h) {
     this.positionTable = [ ]
     for (var i=0; i < w; i++) {
         this.positionTable.push(this.sinWave(200, 0.009, i, 0));
+    }
+
+    // near 1 at the center of the X-axiz, and fade back to 0 near the right of the screen.
+    w2 = Math.floor(w / 2);
+    for (var i=0; i < w2; i++) {
+        this.alphaTable[i] = i / w2;
+    }
+    for (var i=w2; i < w; i++) {
+        this.alphaTable[i] = (w / i) - 1;
     }
 
 }
