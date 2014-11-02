@@ -47,6 +47,7 @@ cubeDemolet.start = function() {
     cubeDemolet.counter = 0;
     cubeDemolet.running = true;
 
+    // the outer cube
     var node0 = [-100, -100, -100];
     var node1 = [-100, -100,  100];
     var node2 = [-100,  100, -100];
@@ -56,8 +57,20 @@ cubeDemolet.start = function() {
     var node6 = [ 100,  100, -100];
     var node7 = [ 100,  100,  100];
 
-    cubeDemolet.nodes = [node0, node1, node2, node3, node4, node5, node6, node7];
+    // the inner cube
+    var node10 = [-50, -50, -50];
+    var node11 = [-50, -50,  50];
+    var node12 = [-50,  50, -50];
+    var node13 = [-50,  50,  50];
+    var node14 = [ 50, -50, -50];
+    var node15 = [ 50, -50,  50];
+    var node16 = [ 50,  50, -50];
+    var node17 = [ 50,  50,  50];
 
+    cubeDemolet.nodes = [node0, node1, node2, node3, node4, node5, node6, node7,
+                         node10, node11, node12, node13, node14, node15, node16, node17];
+
+    // outer edges
     var edge0  = [0, 1];
     var edge1  = [1, 3];
     var edge2  = [3, 2];
@@ -71,7 +84,25 @@ cubeDemolet.start = function() {
     var edge10 = [2, 6];
     var edge11 = [3, 7];
 
-    cubeDemolet.edges = [edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, edge10, edge11];
+    // inner edges
+    var edge20 = [08, 09];
+    var edge21 = [09, 11];
+    var edge22 = [11, 10];
+    var edge23 = [10, 08];
+    var edge24 = [12, 13];
+    var edge25 = [13, 15];
+    var edge26 = [15, 14];
+    var edge27 = [14, 12];
+    var edge28 = [08, 12];
+    var edge29 = [09, 13];
+    var edge30 = [10, 14];
+    var edge31 = [11, 15];
+
+    // corner links between cubes
+    var edge40 =
+
+    cubeDemolet.edges = [edge0, edge1, edge2, edge3, edge4, edge5, edge6, edge7, edge8, edge9, edge10, edge11,
+                         edge20, edge21, edge22, edge23, edge24, edge25, edge26, edge27, edge28, edge29, edge30, edge31];
 
     cubeDemolet.positionX = 200;
     cubeDemolet.positionY = 200;
@@ -103,7 +134,7 @@ cubeDemolet.update = function() {
     cubeDemolet.rotateX3D(cubeDemolet.angleX);
 
     // draw the edges
-    this.edges.forEach(function(edge) {
+    cubeDemolet.edges.forEach(function(edge) {
         cubeDemolet.gfx.moveTo(
             (cubeDemolet.nodes[edge[0]][0] + cubeDemolet.positionX) * cubeDemolet.scale,
             (cubeDemolet.nodes[edge[0]][1] + cubeDemolet.positionY) * cubeDemolet.scale );
