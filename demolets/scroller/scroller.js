@@ -70,7 +70,7 @@ scrollerDemolet.init = function() {
      *
      */
 
-    this.words = "HELLO THERE. WESLEY HERE ATTACKING YOU WITH AN OLD-SCHOOL AMIGA SCROLLER! THIS DEMO IS WRITTEN IN JAVASCRIPT USING THE PIXI WEBGL FRAMEWORK. IT IS PRETTY SWEET AND WORTH LEARNING - WWW.PIXIJS.COM                       NOW LET US SWITCH TO FUN MODE        :) AH MUCH BETTER!               SO THIS IS MY FIRST EVER SCROLLER IN JS, I HOPE YOU ENJOY IT <3 . . . THAT SINE WAVE FUNCTION IS A GEM . . . THAT IS ALL FOR NOW, ENJOY THE REST OF THE SHOW ******** SIGNED WESLEY AKA KEYBOARD MONKEY #!/BIN/SH EOF **************************************";
+    this.words = "HELLO THERE. WESLEY HERE ATTACKING YOU WITH AN OLD-SCHOOL AMIGA SCROLLER! THIS DEMO IS WRITTEN IN JAVASCRIPT USING THE PIXI.JS FRAMEWORK. IT IS PRETTY SWEET! - WWW.PIXIJS.COM                       NOW LET US SWITCH TO FUN MODE        :) AH MUCH BETTER!               SO THIS IS MY FIRST EVER SCROLLER IN JAVASCRIPT, I HOPE YOU ENJOY IT. THIS SINE WAVE FUNCTION IS A GEM . . . THAT IS ALL FOR NOW, ENJOY THE REST OF THE SHOW ******** SIGNED WESLEY AKA KEYBOARD MONKEY #!/BIN/SH EOF **************************************";
 
     // build a alpha-numeric texture map
     this.textureMap = { };
@@ -81,6 +81,14 @@ scrollerDemolet.init = function() {
         s.visible = false;
         stage.addChild(s);
         this.textureMap[c] = s;
+    }
+
+    // build a color gradient for tinting letters
+    this.gradient = { };
+    for(var i=0; i<100; i++) {
+        var rgb = hslToRgb(i/100, 0.8, 0.8);
+        var rgbhex = '0x' + rgb[0].toString(16) + rgb[1].toString(16) + rgb[2].toString(16);
+        this.gradient[i] = parseInt(rgbhex);
     }
 
     // The latest character we are scrolling
@@ -106,7 +114,7 @@ scrollerDemolet.init = function() {
     /* Settings below this line are customized for this particular scroller */
 
     // Start tinting words after this position
-    this.tintAfter = 237;
+    this.tintAfter = 235;
 
     // Load the background image
     var background = new PIXI.Sprite.fromImage(this.path + "background.png");
@@ -134,18 +142,20 @@ scrollerDemolet.fillScroller = function() {
 
         // rotate to beginning
         this.scrollerPosition++;
-        if (this.scrollerPosition > this.words.length - 1) {
-            this.scrollerPosition = -1;
-            this.nextSpriteCountdown = this.restartDelay;
-            return;
-        }
+        //if (this.scrollerPosition > this.words.length - 1) {
+            //this.scrollerPosition = -1;
+            //this.nextSpriteCountdown = this.restartDelay;
+            //return;
+        //}
 
         var nextChar = this.words[scrollerDemolet.scrollerPosition];
         var charTexture = this.textureMap[nextChar];
 
         // rotate tint by word
-        if (this.scrollerPosition > this.tintAfter && nextChar == ' ')
-            this.tint = Demo.requestTint();
+        if (this.scrollerPosition < this.tintAfter)
+            this.tint = Demo.requestTint('base2');
+        else
+            this.tint = this.gradient[this.scrollerPosition % 100];
 
         // ignore missing character textures
         if (charTexture == undefined) return;
@@ -175,8 +185,9 @@ scrollerDemolet.updateSpritePosition = function(sprite) {
 
 scrollerDemolet.update = function() {
 
-    if (!this.on) return;
-    this.fillScroller();
+    if (this.scrollerPosition < this.words.length) {
+        this.fillScroller();
+    }
 
     this.sprites.forEach(function(sprite) {
         scrollerDemolet.updateSpritePosition(sprite);
@@ -186,6 +197,7 @@ scrollerDemolet.update = function() {
     if (this.background.visible && this.background.y < this.backgroundTargetY)
         this.background.y += 1;
 
+    this.finish();
 }
 
 scrollerDemolet.resize = function(w, h) {
@@ -200,6 +212,19 @@ scrollerDemolet.resize = function(w, h) {
 
     this.background.width = Demo.stageW;
 
+}
+
+scrollerDemolet.finish = function() {
+
+    if (this.scrollerPosition >= this.words.length) {
+        // all letter sprites have moved off screen
+        if (scrollerDemolet.sprites.length == 0) {
+            this.running = false;
+            this.background.visible = false;
+            // reset position for next time
+            this.scrollerPosition = -1;
+        }
+    }
 }
 
 scrollerDemolet.sinWave = function(A, w, t, p) {
