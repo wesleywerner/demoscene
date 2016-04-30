@@ -21,7 +21,7 @@
 
 var scanlineDemolet = {
     "path": "demolets/scanline/",
-    "frequency": 1,
+    "frequency": 0.1,
     "running": false
     };
 
