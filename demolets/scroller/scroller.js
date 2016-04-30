@@ -100,10 +100,10 @@ scrollerDemolet.init = function() {
     // Movement speed in pixels
     this.scrollSpeed = 6;
     // Start the scroll at this point
-    this.scrollX = Demo.stageW;
+    this.scrollX = Demo.stageW - 40;
     this.scrollY = 64;
     // End the scroll here
-    this.scrollEndsAtX = -48;
+    this.scrollEndsAtX = 20;
     // Tint sprites
     this.tint = 0xFFFFFF;
     // Wait this many updates before restarting the scroller text.
