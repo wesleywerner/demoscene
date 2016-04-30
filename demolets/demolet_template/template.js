@@ -52,19 +52,6 @@ templateDemolet.init = function() {
     // Store an array of our sprites on our Demolet object.
     this.sprites = [ ];
 
-}
-
-/*
- * The start() function should set your Demolet in motion. It should not last for infinity, and
- * it should set the running value to false when it is done.
- */
-templateDemolet.start = function() {
-
-    this.running = true;
-
-    // store an internal counter for our Demolet
-    this.counter = 0;
-
     // create square sprites
     for (var i=2; i<6; i++) {
         var newSprite = PIXI.Sprite.fromImage(this.path + "gradient.png");
@@ -98,6 +85,19 @@ templateDemolet.start = function() {
     textSprite.anchor.y = 0.5;
     textSprite.position.set(Demo.stageW / 2, Demo.stageH / 2);
     this.sprites.push(textSprite);
+
+}
+
+/*
+ * The start() function should set your Demolet in motion. It should not last for infinity, and
+ * it should set the running value to false when it is done.
+ */
+templateDemolet.start = function() {
+
+    this.running = true;
+
+    // store an internal counter for our Demolet
+    this.counter = 0;
 
     // Add our sprite to the stage. If we don't add it, it won't get rendered.
     this.sprites.forEach(function(sprite) {
@@ -135,7 +135,7 @@ templateDemolet.finish = function() {
     if (this.counter == 500) {
         // let Demolet know we are done
         this.running = false;
-        // we are responsible for remove our assets from the stage
+        // we are responsible for removing our assets from the stage
         this.sprites.forEach(function(sprite) {
             stage.removeChild(sprite);
         });
