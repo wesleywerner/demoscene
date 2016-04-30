@@ -36,8 +36,15 @@ var cubeDemolet = {
 cubeDemolet.init = function() {
 
     this.gfx = new PIXI.Graphics();
+    this.gfx.interactive = true;
+    //this.gfx.on("mousemove", this.cubeMouseMoveEvent)
     this.alphaTable = [ ];
+    this.mouseP = {x:0, y:0};
 
+}
+
+cubeDemolet.cubeMouseMoveEvent = function(mouseData) {
+    this.mouseP = {x:mouseData.data.originalEvent.clientX, y:mouseData.data.originalEvent.clientY};
 }
 
 cubeDemolet.start = function() {
@@ -103,7 +110,6 @@ cubeDemolet.start = function() {
 
     cubeDemolet.positionX = 0;
     cubeDemolet.positionY = 200;
-    cubeDemolet.mouseP = stage.getMousePosition();
 
     cubeDemolet.angleX = 0.005;
     cubeDemolet.angleY = 0.02;
@@ -124,9 +130,8 @@ cubeDemolet.update = function() {
     this.positionY = (Demo.stageH / 2) + this.positionTable[this.positionX];
 
     // rotate the cube
-    var mp = stage.getMousePosition();
-    cubeDemolet.angleY = clamp( (cubeDemolet.positionX - mp.x) * 0.0001, -0.01, 0.01);
-    cubeDemolet.angleX = clamp( (cubeDemolet.positionY - mp.y) * 0.0001, -0.01, 0.01);
+    cubeDemolet.angleY = clamp( (cubeDemolet.positionX - this.mouseP.x) * 0.0001, -0.01, 0.01);
+    cubeDemolet.angleX = clamp( (cubeDemolet.positionY - this.mouseP.y) * 0.0001, -0.01, 0.01);
     cubeDemolet.rotateZ3D(cubeDemolet.angleZ);
     cubeDemolet.rotateY3D(cubeDemolet.angleY);
     cubeDemolet.rotateX3D(cubeDemolet.angleX);

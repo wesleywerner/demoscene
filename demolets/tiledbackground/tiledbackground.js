@@ -31,7 +31,7 @@ tiledbackgroundDemolet.init = function() {
     this.count = 0;
     this.textureFrames = 0;
     var texture = PIXI.Texture.fromImage(this.path + "tiledskull.png");
-    var tilingSprite = new PIXI.TilingSprite(texture, window.innerWidth, window.innerHeight);
+    var tilingSprite = new PIXI.extras.TilingSprite(texture, window.innerWidth, window.innerHeight);
     this.tilingSprite = tilingSprite;
     stage.addChild(tilingSprite);
 }

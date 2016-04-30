@@ -38,7 +38,7 @@ scanlineDemolet.start = function() {
 
     stage.addChild(this.scanline);
     this.scanline.tint = Demo.requestTint();
-    this.scanline.blendMode = PIXI.blendModes.ADD;
+    this.scanline.blendMode = PIXI.BLEND_MODES.ADD;
     this.scanline.position.set(0, 0);
     this.running = true;
 

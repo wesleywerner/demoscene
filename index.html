@@ -49,7 +49,7 @@
 
         Demo.stageW = window.innerWidth - 16;
         Demo.stageH = window.innerHeight - 16;
-        var stage = new PIXI.Stage(Demo.requestTint('base03'));
+        var stage = new PIXI.Container();
         var renderer = new PIXI.autoDetectRenderer(Demo.stageW, Demo.stageH);
         document.body.appendChild(renderer.view);
 
@@ -68,7 +68,7 @@
             demolet.resize(Demo.stageW, Demo.stageH);
         });
 
-        requestAnimFrame(animate);
+        requestAnimationFrame(animate);
 
         var runningCount = 0;
 
@@ -89,7 +89,7 @@
 
             // Render the scene and request the next animation frame
             renderer.render(stage);
-            requestAnimFrame(animate);
+            requestAnimationFrame(animate);
 
         }
 
