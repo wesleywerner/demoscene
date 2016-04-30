@@ -85,16 +85,16 @@ cubeDemolet.start = function() {
     var edge11 = [3, 7];
 
     // inner edges
-    var edge20 = [08, 09];
-    var edge21 = [09, 11];
+    var edge20 = [8, 9];
+    var edge21 = [9, 11];
     var edge22 = [11, 10];
-    var edge23 = [10, 08];
+    var edge23 = [10, 8];
     var edge24 = [12, 13];
     var edge25 = [13, 15];
     var edge26 = [15, 14];
     var edge27 = [14, 12];
-    var edge28 = [08, 12];
-    var edge29 = [09, 13];
+    var edge28 = [8, 12];
+    var edge29 = [9, 13];
     var edge30 = [10, 14];
     var edge31 = [11, 15];
 
