@@ -170,10 +170,7 @@ console.log('quitting cube');
 cubeDemolet.resize = function(w, h) {
 
     // build a lookup table of where each of our Y-points map to the X-space.
-    this.positionTable = [ ]
-    for (var i=0; i < w; i++) {
-        this.positionTable.push(this.sinWave(200, 0.009, i, 0));
-    }
+    this.positionTable = sineTable(200, 0.009, w)
 
     // near 1 at the center of the X-axiz, and fade back to 0 near the right of the screen.
     w2 = Math.floor(w / 2);
@@ -183,17 +180,6 @@ cubeDemolet.resize = function(w, h) {
     for (var i=w2; i < w; i++) {
         this.alphaTable[i] = (w / i) - 1;
     }
-
-}
-
-cubeDemolet.sinWave = function(A, w, t, p) {
-
-    // f(x) = A sin(wt + p)
-    //  A is the amplitude
-    //  w is the frequency
-    //  p is the phase
-
-    return A * Math.sin(w * t + p);
 
 }
 
