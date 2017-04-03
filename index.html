@@ -1,0 +1,165 @@
+<!--
+   index.html
+
+   Copyright 2014 Wesley Werner <wez@darknet.co.za>
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+   MA 02110-1301, USA.
+
+
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <title>demoscene by keyboardmonkey</title>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="generator" content="Geany 1.24.1" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="text/javascript" src="js/pixi.js"></script>
+    <script type="text/javascript" src="js/demorc.js"></script>
+    <script type="text/javascript" src="js/helpers.js"></script>
+    <!-- demolets -->
+    <script type="text/javascript" src="demolets/demolet_template/template.js"></script>
+    <script type="text/javascript" src="demolets/scroller/scroller.js"></script>
+    <script type="text/javascript" src="demolets/tiledbackground/tiledbackground.js"></script>
+    <script type="text/javascript" src="demolets/glowingskulls/glowingskulls.js"></script>
+    <script type="text/javascript" src="demolets/pixelatefilter/pixelatefilter.js"></script>
+    <script type="text/javascript" src="demolets/scanline/scanline.js"></script>
+    <script type="text/javascript" src="demolets/cube/cube.js"></script>
+    <script type="text/javascript" src="demolets/warpsphere/warpsphere.js"></script>
+</head>
+
+<body>
+
+    <script>
+
+        Demo.stageW = window.innerWidth - 16;
+        Demo.stageH = window.innerHeight - 16;
+        var stage = new PIXI.Container();
+        var renderer = new PIXI.autoDetectRenderer(Demo.stageW, Demo.stageH);
+        document.body.appendChild(renderer.view);
+
+        // Define the list of Demolets we will be running
+        Demo.lets = [
+            //templateDemolet,
+            glowingskullsDemolet,
+            scanlineDemolet,
+            cubeDemolet,
+            warpsphereDemolet,
+            //pixelateFilter,
+            ]
+
+        // Initialize the Demolets.
+        Demo.lets.concat([tiledbackgroundDemolet]).forEach(function(demolet) {
+            demolet.init();
+            demolet.resize(Demo.stageW, Demo.stageH);
+        });
+
+        requestAnimationFrame(animate);
+
+        var runningCount = 0;
+
+        // Our animation callback
+        function animate() {
+
+            // update the background
+            tiledbackgroundDemolet.update();
+
+            // update each Demolet
+            runningCount = 0;
+            Demo.lets.forEach(function(demolet) {
+                if (demolet.running) {
+                    runningCount++;
+                    demolet.update();
+                }
+            });
+
+            // Render the scene and request the next animation frame
+            renderer.render(stage);
+            requestAnimationFrame(animate);
+
+        }
+
+        window.setTimeout(queueDemolets, 1000);
+
+        // Check if we can start a Demolet
+        function queueDemolets() {
+
+            // Not enough Demolets are busy running
+            if (runningCount < 4) {
+
+                // Filter out the non-running Demolets
+                var availableDemolets = Demo.lets.filter(
+                    function(test){
+                        return !test.running && test.start != undefined && Math.random() < test.frequency;
+                        });
+                if (availableDemolets.length > 0) {
+
+                    // Start a random Demolet
+                    var randLet = availableDemolets[getRandomInt(0, availableDemolets.length - 1)];
+                    randLet.resize(Demo.stageW, Demo.stageH);
+                    randLet.start();
+
+                }
+
+            }
+
+            // Recall this function again
+            window.setTimeout(queueDemolets, 1000);
+        }
+
+        // handle window resize events, with a limiter to avoid unnecessary calls
+        (function() {
+            window.addEventListener("resize", resizeThrottler, false);
+            var resizeTimeout;
+            function resizeThrottler() {
+            // ignore resize events as long as an actualResizeHandler execution is in the queue
+            if ( !resizeTimeout ) {
+              resizeTimeout = setTimeout(function() {
+                resizeTimeout = null;
+                actualResizeHandler();
+               // The actualResizeHandler will execute at a rate of 15fps
+               }, 66);
+            }
+            }
+
+            function actualResizeHandler() {
+                // Handle the resize event by saving the new size, and call resizing on each Demolet.
+                Demo.stageW = window.innerWidth - 16;
+                Demo.stageH = window.innerHeight - 16;
+                renderer.resize(Demo.stageW, Demo.stageH);
+                Demo.lets.forEach(function(demolet) {
+                    demolet.resize(Demo.stageW, Demo.stageH);
+                });
+            }
+
+            }());
+
+        // Start the scroller text in a little while
+        window.setTimeout(function() {
+            scrollerDemolet.init();
+            scrollerDemolet.resize(Demo.stageW, Demo.stageH);
+            Demo.lets.push(scrollerDemolet);
+            scrollerDemolet.start();
+        }, 60000);
+
+    </script>
+
+</body>
+
+</html>
